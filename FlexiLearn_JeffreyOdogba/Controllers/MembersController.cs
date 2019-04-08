@@ -91,7 +91,7 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
           
         }
 
-        
+        //Accepts string from view - search database for course/subject/fee/duration and return result search to the view
         [HttpGet]
         public ActionResult DashBoard(string search)
         {
@@ -107,7 +107,7 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
             return View(returnSearchedCourses);
         }
 
-        //Post: To Book Enollment    
+        //Post: To Book Enollment 
         public ActionResult Book(int id)
         {
                 Enrolled en = new Enrolled();
