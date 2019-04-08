@@ -1,0 +1,73 @@
+﻿@using FlexiLearn_JeffreyOdogba.Models
+@model IEnumerable<FlexiLearn_JeffreyOdogba.Models.Course>
+
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Session["Username"] == null)
+    {
+        Response.Redirect("~/Members/Login");
+    }
+
+}
+
+
+<h2>Top Courses</h2>
+
+<div class="form-inline">
+    @using (Html.BeginForm("DashBoard", "Members", FormMethod.Get))
+    {
+        @Html.TextBox("search", null, new { @class = "form-control" })
+        <input type="submit" value="Search" class="btn btn-info" />
+    }
+</div>
+<div style="float:right;">
+    @Html.ActionLink("Courses Request", "CoursesRequest", "Members", null, new { @class = "btn btn-info" })
+</div>
+<p class="text-danger">
+    @TempData["NotAdding"]
+</p>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fee)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fee)
+            </td>
+            <td>
+
+                @Html.ActionLink("Book", "Book", new { id = item.CourseId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CourseId })
+            </td>
+        </tr>
+    }
+
+</table>
+

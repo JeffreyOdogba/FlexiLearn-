@@ -1,0 +1,63 @@
+﻿@model IEnumerable<FlexiLearn_JeffreyOdogba.Models.Enrolled>
+
+@{
+    ViewBag.Title = "CoursesRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Requests</h2>
+
+<p>
+    @Html.ActionLink("Add new courses", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.username)
+        </th>
+        <th>
+            <span style="color:darkgray; font-weight:900;"> @Html.DisplayNameFor(model => model.Request)</span>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.educationLevel)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Request)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.subject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.educationLevel)
+        </td>
+        <td>
+            @Html.ActionLink("Approve", "Approve", new { id = item.EnrollmentId })
+        </td>
+        <td>
+            @Html.ActionLink("Rejected", "Rejected", new { id = item.EnrollmentId })
+        </td>
+    </tr>
+    }
+
+</table>
+
+

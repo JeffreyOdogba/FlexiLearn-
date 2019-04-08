@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a10f9a70e7b64583876c9dda74d48684" Name="Diagram1">
+        <EntityTypeShape EntityType="FlexiLearnModel.Course" Width="1.875" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlexiLearnModel.Enrolled" Width="1.5" PointX="3.5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlexiLearnModel.Member" Width="1.5" PointX="6.125" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="FlexiLearnModel.FK_Enrolled_Course" ManuallyRouted="false" />
+        <AssociationConnector Association="FlexiLearnModel.FK_Enrolled_Members" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

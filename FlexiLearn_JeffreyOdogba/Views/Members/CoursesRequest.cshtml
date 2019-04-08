@@ -1,0 +1,78 @@
+﻿@model IEnumerable<FlexiLearn_JeffreyOdogba.Models.Enrolled>
+
+@{
+    ViewBag.Title = "CoursesRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Session["Username"] == null)
+    {
+       Response.Redirect("~/Members/Login");
+    }
+}
+
+<h2>@Session["Username"]'s Dashboard</h2>
+
+<p>
+    @Html.ActionLink("Book A Course", "DashBoard")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <span style="color:darkgray; font-weight:900;"> @Html.DisplayNameFor(model => model.Request)</span>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.educationLevel)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            
+            <td>
+                <span id="req">@Html.DisplayFor(modelItem => item.Request)</span>
+            </td>
+               
+
+         <td>
+                @Html.DisplayFor(modelItem => item.Course.title)
+         </td>
+        <td>
+                @Html.DisplayFor(modelItem => item.Course.subject)
+        </td>
+        <td>
+                @Html.DisplayFor(modelItem => item.Member.educationLevel)
+        </td>
+        <td>
+            @if (item.Request.Equals("Approved"))
+            {
+                <span> Start Course </span>
+            }else{
+            @Html.ActionLink("Withdraw Course", "Delete", new { id = item.EnrollmentId }, new { id = "delReq" })
+            }
+
+        </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script>
+        
+        $(document).ready(function () {
+            //var delReq = $('delReq');
+            if ($("#req").val() == "Approved") {
+                $("#delReq").prop("disabled", true);                  
+            }
+        });
+    </script>
+}

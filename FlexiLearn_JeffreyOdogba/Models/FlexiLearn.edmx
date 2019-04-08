@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FlexiLearnModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+          <Property Name="subject" Type="varchar" MaxLength="50" />
+          <Property Name="duration" Type="decimal" Precision="9" Scale="0" />
+          <Property Name="fee" Type="decimal" Precision="9" Scale="0" />
+        </EntityType>
+        <EntityType Name="Enrolled">
+          <Key>
+            <PropertyRef Name="EnrollmentId" />
+          </Key>
+          <Property Name="EnrollmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="CourseId" Type="int" />
+          <Property Name="Request" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Members">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="educationLevel" Type="varchar" MaxLength="50" />
+          <Property Name="dateofbirth" Type="date" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="dateOfRegistration" Type="date" />
+        </EntityType>
+        <Association Name="FK_Enrolled_Course">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="0..1" />
+          <End Role="Enrolled" Type="Self.Enrolled" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="Enrolled">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrolled_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+          <End Role="Enrolled" Type="Self.Enrolled" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Enrolled">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FlexiLearnModelStoreContainer">
+          <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enrolled" EntityType="Self.Enrolled" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Enrolled_Course" Association="Self.FK_Enrolled_Course">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Enrolled" EntitySet="Enrolled" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrolled_Members" Association="Self.FK_Enrolled_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Enrolled" EntitySet="Enrolled" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FlexiLearnModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="subject" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="duration" Type="Decimal" Precision="9" Scale="0" />
+          <Property Name="fee" Type="Decimal" Precision="9" Scale="0" />
+          <NavigationProperty Name="Enrolleds" Relationship="Self.FK_Enrolled_Course" FromRole="Courses" ToRole="Enrolled" />
+        </EntityType>
+        <EntityType Name="Enrolled">
+          <Key>
+            <PropertyRef Name="EnrollmentId" />
+          </Key>
+          <Property Name="EnrollmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="CourseId" Type="Int32" />
+          <Property Name="Request" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_Enrolled_Course" FromRole="Enrolled" ToRole="Courses" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Enrolled_Members" FromRole="Enrolled" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="educationLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dateofbirth" Type="DateTime" Precision="0" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Enrolleds" Relationship="Self.FK_Enrolled_Members" FromRole="Members" ToRole="Enrolled" />
+          <Property Name="dateOfRegistration" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="FK_Enrolled_Course">
+          <End Role="Courses" Type="FlexiLearnModel.Course" Multiplicity="0..1" />
+          <End Role="Enrolled" Type="Self.Enrolled" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="Enrolled">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrolled_Members">
+          <End Role="Members" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Enrolled" Type="Self.Enrolled" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Enrolled">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FlexiLearnEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courses" EntityType="FlexiLearnModel.Course" />
+          <EntitySet Name="Enrolleds" EntityType="Self.Enrolled" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <AssociationSet Name="FK_Enrolled_Course" Association="Self.FK_Enrolled_Course">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Enrolled" EntitySet="Enrolleds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrolled_Members" Association="Self.FK_Enrolled_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Enrolled" EntitySet="Enrolleds" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FlexiLearnModelStoreContainer" CdmEntityContainer="FlexiLearnEntities">
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="FlexiLearnModel.Course">
+              <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="fee" ColumnName="fee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enrolleds">
+            <EntityTypeMapping TypeName="FlexiLearnModel.Enrolled">
+              <MappingFragment StoreEntitySet="Enrolled">
+                <ScalarProperty Name="EnrollmentId" ColumnName="EnrollmentId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Request" ColumnName="Request" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="FlexiLearnModel.Member">
+              <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="dateOfRegistration" ColumnName="dateOfRegistration" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="educationLevel" ColumnName="educationLevel" />
+                <ScalarProperty Name="dateofbirth" ColumnName="dateofbirth" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
