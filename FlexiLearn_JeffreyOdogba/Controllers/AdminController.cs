@@ -11,19 +11,22 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
     public class AdminController : Controller
     {
         private FlexiLearnEntities db = new FlexiLearnEntities();
-        // GET: Admin
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-
+        
+        /// <summary>
+        /// View For Creating Courses
+        /// </summary>
+        /// <returns>Sign Up Page</returns>
         // GET: Admin/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// ActionResult For taking inputs from Admin to store Courses in the DataBase
+        /// </summary>
+        /// <param name="collection">param passed from view to Controller</param>
+        /// <returns>Create View</returns>
         // POST: Admin/Create
         [HttpPost]
         public ActionResult Create(Course collection)
@@ -46,6 +49,10 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
             }
         }
 
+        /// <summary>
+        /// This view All Courses Booked by users but not Approved Yet
+        /// </summary>
+        /// <returns>All COurses Booked</returns>
         // GET: Admin/Edit/5
         [HttpGet]
         public ActionResult Edit()
@@ -58,8 +65,13 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
             return View(EnrolledCourses);
         }
 
+        /// <summary>
+        /// Approve is click to approve course for a user..
+        /// Once Approved User Cannot Withdraw from Course
+        /// </summary>
+        /// <param name="id">get the id of the Course to be approved</param>
+        /// <returns>return Edit View</returns>
         // POST: Admin/Edit/5
-        // Approve is click to approve course for a user
         public ActionResult Approve(int id)
         {
             Enrolled enrolled = new Enrolled();
@@ -71,7 +83,12 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
                 return RedirectToAction("Edit");           
         }
 
-        // GET: Admin/Delete/5
+        /// <summary>
+        /// This Rejected Reject a Course  
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Return Edit View</returns>
+        // GET: Admin/Rejected/5
         public ActionResult Rejected(int id)
         {
             Enrolled enrolled = new Enrolled();

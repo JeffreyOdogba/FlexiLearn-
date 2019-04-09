@@ -8,15 +8,32 @@ using System.Web.Security;
 
 namespace FlexiLearn_JeffreyOdogba.Controllers
 {
+    /// <summary>
+    /// Member Controller = Everything is Done Here :WIll Sectin everthing to units
+    /// </summary>
     public class MembersController : Controller
     {
+        /// <summary>
+        /// Connection to database Entities 
+        /// </summary>
         private FlexiLearnEntities db = new FlexiLearnEntities();
+
+        /// <summary>
+        /// Sign up Page
+        /// Index is the default Route 
+        /// </summary>
+        /// <returns>Sign Up Page FORM</returns>
         // GET: Sign Up
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
         // POST: Members/Create
         [HttpPost]
         public ActionResult Create(Member collection)
@@ -43,11 +60,20 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
 
         }
 
+        /// <summary>
+        /// This to display Login Page with all forms
+        /// </summary>
+        /// <returns>Login Page</returns>
         public ActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// Get user input and validate to login Main Page
+        /// </summary>
+        /// <param name="member"> model for all properties posted</param>
+        /// <returns>DashBoard if successfull Log in</returns>
         // Post: Members/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -67,6 +93,11 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
             return View();
         }
 
+        /// <summary>
+        /// end session
+        /// FormAuthentication Not used - Will be used in Upcoming Version
+        /// </summary>
+        /// <returns>Login Page</returns>
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
@@ -74,9 +105,11 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
             return RedirectToAction("Login");
         }
         
-
-        // GET: Members/DashBoard  
-        
+        /// <summary>
+        /// ActionResult for Displaying All courses from database
+        /// </summary>
+        /// <returns>return all couses for booking</returns>
+        // GET: Members/DashBoard         
         public ActionResult DashBoard()
         {
             if (Session["MemberID"] != null)
@@ -107,7 +140,13 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
             return View(returnSearchedCourses);
         }
 
-        //Post: To Book Enollment 
+        /// <summary>
+        /// Courses Booked will be added to the db with user SessionID and CourseID with Awaititng Approval
+        /// user cannot double book a course
+        /// </summary>
+        /// <param name="id"> To get which course is requested</param>
+        /// <returns>return DashBoard View to keep booking</returns>
+        //Get: To Book Enollment 
         public ActionResult Book(int id)
         {
                 Enrolled en = new Enrolled();
@@ -130,6 +169,10 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
             return RedirectToAction("DashBoard");
         }
 
+        /// <summary>
+        /// Gets courses of a users that placed a request from user
+        /// </summary>
+        /// <returns> return courses for each request book </returns>
         [HttpGet]
         public ActionResult CoursesRequest()
         {
@@ -143,7 +186,12 @@ namespace FlexiLearn_JeffreyOdogba.Controllers
           return View(EnrolledCourses);            
         }
 
-        //POST: Members/Withdraw/5
+        /// <summary>
+        /// This Submit a request to get the id from each courses and delete from database
+        /// </summary>
+        /// <param name="id"> this gets the id of each course </param>
+        /// <returns> this return back the view for CoursesRequest submitted</returns>
+        //Get: Members/Withdraw/5
         public ActionResult Delete(int id)
         {
             Enrolled enrolled = db.Enrolleds.Find(id);
